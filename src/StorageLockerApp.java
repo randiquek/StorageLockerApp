@@ -1,19 +1,26 @@
 //import java utilities - scanner, random (for locker pin)
+import java.util.Scanner;
 
-import java.util.concurrent.StructureViolationException;
 
 public class StorageLockerApp {
     // Define variables/arrays
     // Establish variable for 10 lockers
     public static int totalAvailableLockers = 10;
-    public static String[] lockerID = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-    public static String[] lockerPin = {"0001", "0002", "0003", "0004"};
-    public static boolean[] lockerAvailable = {true, true, true, true, true, true, true, true, true, true};
+    public static String[] lockerID = {"1", "2", "3"};
+    public static String[] lockerPin = {"0001", "0002", "0003"};
+    public static boolean[] lockerAvailable = {true, true, true};
     // Set up Scanner for input
 
     public static void main(String[] args) {
 
-        displayMainMenu();
+        while(true) {
+            displayMainMenu();
+            int menuChoice = getChoice();
+            if (menuChoice == 1) {
+                rentLocker();
+            }
+            //getAvailableLocker();
+        }
     /*
 
     1. Display Main Menu
@@ -47,7 +54,7 @@ public class StorageLockerApp {
     // Methods
      public static void displayMainMenu() {
          System.out.println("What would you like to do next?");
-            if(totalAvailableLockers > 0) {
+            if(getAvailableLocker() != -1)  {
                 System.out.println("1. Rent a Locker ");
             }
          System.out.println("2. Access a Locker \n3. Release a Locker \n--- \nAny other key to exit");
@@ -63,17 +70,34 @@ public class StorageLockerApp {
 
          */
     // getChoice()
+    public static int getChoice() {
+        Scanner console = new Scanner(System.in);
+        return Integer.parseInt(console.nextLine());
+    }
     // rentLocker()
+    public static void rentLocker() {
+        int firstAvailableLocker = getAvailableLocker();
+        System.out.println("Locker " + lockerID[firstAvailableLocker] +"\nPin Number: " + lockerPin[firstAvailableLocker] + "\nThank you for renting.");
+        lockerAvailable[firstAvailableLocker] = false;
+    }
+//     2. User Rents a Locker
+//    a. Find available locker
+//    b. Provide pin # (make random once everything works)
+//    c. Print a thank-you with locker# and pin
     // accessLocker()
     // releaseLocker()
-    public static getAvailableLocker() {
-        while(!lockersAvailable) {
-            for( locker : lockerID[]) {
-                lockersAvailable = false;
+
+
+    public static int getAvailableLocker() {
+        int firstAvailableLocker = -1;
+            for(int i = 0; i < lockerAvailable.length; i++){
+                if(lockerAvailable[i]) {
+                    return i;
                 }
             }
+            return firstAvailableLocker;
         }
-    }
+
     // generatePin()
     // printReceipt()
     // getLockerNumber()

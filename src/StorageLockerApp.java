@@ -16,8 +16,19 @@ public class StorageLockerApp {
         while(true) {
             displayMainMenu();
             int menuChoice = getChoice();
-            if (menuChoice == 1) {
-                rentLocker();
+
+            switch(menuChoice) {
+                case 1:
+                    rentLocker();
+                    break;
+                case 2:
+                    accessLocker();
+                    break;
+                //case 3: releaseLocker();
+                default:
+                    System.out.println("Exiting program");
+                    System.exit(0);
+
             }
             //getAvailableLocker();
         }
@@ -77,20 +88,36 @@ public class StorageLockerApp {
     // rentLocker()
     public static void rentLocker() {
         int firstAvailableLocker = getAvailableLocker();
+        if(firstAvailableLocker == -1 ) {
+            System.out.println("All lockers are unavailable.");
+            return;
+        }
         System.out.println("Locker " + lockerID[firstAvailableLocker] +"\nPin Number: " + lockerPin[firstAvailableLocker] + "\nThank you for renting.");
         lockerAvailable[firstAvailableLocker] = false;
+
     }
-//     2. User Rents a Locker
-//    a. Find available locker
-//    b. Provide pin # (make random once everything works)
-//    c. Print a thank-you with locker# and pin
-    // accessLocker()
+    public static void accessLocker() {
+        int lockerIndex = getLockerNumber();
+        if(lockerIndex == -1) {
+            System.out.println("Invalid locker ID");
+            return;
+        }
+        if(lockerAvailable[lockerIndex]) {
+        System.out.println("Locker " + lockerID[lockerIndex] + " is available");
+        }
+        Scanner console = new Scanner(System.in);
+        System.out.println("Please enter a pin number");
+        String userPin = console.nextLine();
+        if(lockerPin[lockerIndex].equals(userPin)) {
+            System.out.println("Success, locker opened");
+        } else {
+            System.out.println("Incorrect pin");
+        }
+    }
     // releaseLocker()
-
-
     public static int getAvailableLocker() {
         int firstAvailableLocker = -1;
-            for(int i = 0; i < lockerAvailable.length; i++){
+        for(int i = 0; i < lockerAvailable.length; i++){
                 if(lockerAvailable[i]) {
                     return i;
                 }
@@ -100,9 +127,23 @@ public class StorageLockerApp {
 
     // generatePin()
     // printReceipt()
-    // getLockerNumber()
-    // isTheLockerNumberValid()
-    // openLocker()
-    // releaseLocker()
+    public static int getLockerNumber() {
+        Scanner console = new Scanner(System.in);
+        System.out.println("Please enter your locker number");
+        String userLockerNum = console.nextLine();
+        return isTheLockerNumberValid(userLockerNum);
+    }
+    public static int isTheLockerNumberValid(String userLockerNum) {
+        int noLockerMatch = - 1;
+        for(int i = 0; i < lockerID.length; i++) {
+            if (lockerID[i].equals(userLockerNum)) {
+                return i;
+            }
+        }
+        return noLockerMatch;
+    }
+    public static void openLocker() {
+        System.out.println("Success! ");
+    }
 
 }

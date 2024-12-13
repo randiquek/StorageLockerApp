@@ -24,13 +24,12 @@ public class StorageLockerApp {
                 case 2:
                     accessLocker();
                     break;
-                //case 3: releaseLocker();
+                case 3: releaseLocker();
                 default:
                     System.out.println("Exiting program");
                     System.exit(0);
 
             }
-            //getAvailableLocker();
         }
     /*
 
@@ -114,7 +113,17 @@ public class StorageLockerApp {
             System.out.println("Incorrect pin");
         }
     }
-    // releaseLocker()
+    public static int releaseLocker() {
+        int releaseLockerIndex = getLockerNumber();
+        if(getLockerNumber() == -1) {
+            for(int i = 0; i < lockerAvailable.length; i++) {
+                lockerAvailable[releaseLockerIndex - 1] = true;
+                break;
+            }
+            System.out.println("Locker released and is available to rent");
+        }
+        return releaseLockerIndex;
+    }
     public static int getAvailableLocker() {
         int firstAvailableLocker = -1;
         for(int i = 0; i < lockerAvailable.length; i++){
@@ -129,7 +138,7 @@ public class StorageLockerApp {
     // printReceipt()
     public static int getLockerNumber() {
         Scanner console = new Scanner(System.in);
-        System.out.println("Please enter your locker number");
+        System.out.println("Please enter the locker number");
         String userLockerNum = console.nextLine();
         return isTheLockerNumberValid(userLockerNum);
     }
